@@ -1,41 +1,39 @@
-import "./styles.scss";
-import { ReactNode } from "react";
-import cx from "classnames";
+import { ReactNode } from 'react'
+
+import cx from 'classnames'
+import * as S from './styled'
 
 type QuestionProps = {
-  content: string;
+  content: string
   author: {
-    name: string;
-    avatar: string;
-  };
-  children?: ReactNode;
-  isAnswered?: boolean;
-  isHighlighted?: boolean;
-};
+    name: string
+    avatar: string
+  }
+  children?: ReactNode
+  isAnswered?: boolean
+  isHighlighted?: boolean
+}
 
-export function Question({
+export const Question: React.FC<QuestionProps> = ({
   content,
   author,
   isAnswered = false,
   isHighlighted = false,
-  children,
-}: QuestionProps) {
-  return (
-    <div
-      className={cx(
-        "question",
-        { answered: isAnswered },
-        { highlighted: isHighlighted }
-      )}
-    >
-      <p>{content}</p>
-      <footer>
-        <div className="user-info">
-          <img src={author.avatar} alt={author.name} />
-          <span>{author.name}</span>
-        </div>
-        <div>{children}</div>
-      </footer>
-    </div>
-  );
-}
+  children
+}): JSX.Element => (
+  <S.Question
+    className={cx(
+      { answered: isAnswered },
+      { highlighted: isHighlighted && !isAnswered }
+    )}
+  >
+    <p>{content}</p>
+    <footer>
+      <S.UserInfo>
+        <img src={author.avatar} alt={author.name} />
+        <span>{author.name}</span>
+      </S.UserInfo>
+      <div>{children}</div>
+    </footer>
+  </S.Question>
+)
