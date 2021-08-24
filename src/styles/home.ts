@@ -1,9 +1,20 @@
 import styled from 'styled-components'
+import { generateMedia } from 'styled-media-query'
+
+const customMedia = generateMedia({
+  desktop: '78em',
+  tablet: '60em',
+  mobile: '540px'
+})
 
 export const PageAuth = styled.div`
   display: flex;
   align-items: stretch;
   height: 100vh;
+
+  ${customMedia.lessThan('mobile')`
+    flex-direction: column;
+  `}
 `
 
 export const StyledMain = styled.main`
@@ -14,6 +25,10 @@ export const StyledMain = styled.main`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  ${customMedia.lessThan('mobile')`
+      flex: 3;
+  `}
 `
 
 export const MainContent = styled.div`

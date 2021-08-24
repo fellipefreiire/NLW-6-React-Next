@@ -11,7 +11,8 @@ const theme = {
     text: '#29292e',
     primary: '#835afd',
     pink: '#e559f9',
-    red: '#ea4335'
+    red: '#ea4335',
+    dark: '#1C1A27'
   }
 }
 

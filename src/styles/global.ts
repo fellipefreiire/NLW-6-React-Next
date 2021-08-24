@@ -15,12 +15,37 @@ export default createGlobalStyle`
 
   @media(max-width: 45rem) {
     html {
-      font-size: 87.5% // 15px
+      font-size: 87.5% // 14px
     }
   }
 
   body {
     background: ${props => props.theme.colors.whiteSnow};
+
+    .ReactModal__Content {
+      opacity: 1;
+      transform: translateX(100%);
+      transition: transform 500ms ease-in-out;
+
+      &--after-open {
+        opacity: 1;
+        transform: translateX(0%);
+      }
+
+      &--before-close {
+        opacity: 1;
+        transform: translateX(100%);
+      }
+
+      .modal--close__button {
+        display: flex;
+        justify-content: flex-end;
+
+        img {
+          width: 24px;
+        }
+      }
+    }
   }
 
   body, input, textarea, button {

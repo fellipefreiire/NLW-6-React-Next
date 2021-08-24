@@ -3,7 +3,9 @@ import { useRouter } from 'next/router'
 
 import { database } from '../../../services/firebase'
 
+import { useEffect, useState } from 'react'
 import { useRoom } from '../../../hooks/useRoom'
+import Modal from 'react-modal'
 
 import { Button } from '../../../components/Button'
 import { Question } from '../../../components/Question'
@@ -11,12 +13,54 @@ import { RoomCode } from '../../../components/RoomCode'
 
 import * as S from '../../../styles/room'
 
+Modal.setAppElement('#__next')
+
+const modalStyles = {
+  overlay: {
+    background: 'rgba(0,0,0,0.5)'
+  },
+  content: {
+    height: '100vh',
+    width: '50%',
+    marginLeft: 'auto',
+    borderRadius: 0,
+    border: 0,
+    background: '#fefefe',
+    padding: '1rem',
+    inset: '0'
+  }
+}
+
 const AdminRoom: NextPage = () => {
+  const windowSize = process.browser ? window.innerWidth >= 768 : false
+  const [isTablet, setTablet] = useState(windowSize)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const router = useRouter()
   const roomId = router.query.id?.toString()
   const { questions, title } = useRoom(roomId)
 
-  async function handleEndRoom() {
+  const copyRoomCodeToClipboard = (code: string) => {
+    navigator.clipboard.writeText(code)
+  }
+
+  function openModal() {
+    setIsModalOpen(true)
+  }
+
+  function closeModal() {
+    setIsModalOpen(false)
+  }
+
+  const updateMedia = () => {
+    setTablet(window.innerWidth >= 768)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', updateMedia)
+    return () => window.removeEventListener('resize', updateMedia)
+  }, [])
+
+  const handleEndRoom = async () => {
     await database.ref(`rooms/${roomId}`).update({
       endedAt: new Date()
     })
@@ -45,12 +89,22 @@ const AdminRoom: NextPage = () => {
       <header>
         <S.HeaderContent>
           <img src='/images/logo.svg' alt='Letmeask' />
-          <div>
-            <RoomCode code={roomId} />
-            <Button onClick={handleEndRoom} isOutlined>
-              Encerrar Sala
-            </Button>
-          </div>
+          {isTablet ? (
+            <div>
+              <RoomCode code={roomId} />
+              <Button onClick={handleEndRoom} isOutlined>
+                Encerrar Sala
+              </Button>
+            </div>
+          ) : (
+            <div onClick={openModal}>
+              <svg viewBox='0 0 100 80' width='24' height='24'>
+                <rect width='100' height='20' rx='8'></rect>
+                <rect y='30' width='100' height='20' rx='8'></rect>
+                <rect y='60' width='100' height='20' rx='8'></rect>
+              </svg>
+            </div>
+          )}
         </S.HeaderContent>
       </header>
 
@@ -103,6 +157,29 @@ const AdminRoom: NextPage = () => {
           })}
         </S.QuestionList>
       </main>
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={modalStyles}
+        contentLabel='Modal for room menu'
+        closeTimeoutMS={500}
+      >
+        <div className='modal--close__button'>
+          <img
+            onClick={closeModal}
+            src='/images/cross.svg'
+            alt='Close modal button'
+          />
+        </div>
+        <div>
+          <S.ModalUl>
+            <li onClick={() => copyRoomCodeToClipboard(roomId)}>
+              Copiar código
+            </li>
+            <li onClick={handleEndRoom}>Encerrar sala</li>
+          </S.ModalUl>
+        </div>
+      </Modal>
     </S.PageRoom>
   )
 }

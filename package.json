@@ -9,17 +9,21 @@
     "test": "jest --watch"
   },
   "dependencies": {
+    "@types/react-modal": "^3.12.1",
     "next": "10.0.9",
     "next-images": "^1.7.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "styled-components": "^5.2.1"
+    "react-modal": "^3.14.3",
+    "styled-components": "^5.2.1",
+    "styled-media-query": "^2.1.2"
   },
   "devDependencies": {
     "@testing-library/dom": "^7.30.3",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.1",
+    "@types/classnames": "^2.3.1",
     "@types/jest": "^26.0.21",
     "@types/node": "^14.14.35",
     "@types/react": "^17.0.3",

@@ -3,12 +3,14 @@ import styled from 'styled-components'
 export const PageRoom = styled.div`
   header {
     padding: 1.5rem;
+    padding: 1rem;
     border-bottom: 0.0625rem solid ${props => props.theme.colors.white4};
   }
 
   main {
     max-width: 50rem;
     margin: 0 auto;
+    padding: 1rem;
 
     form {
       textarea {
@@ -121,6 +123,28 @@ export const LikeButton = styled.button`
 
     svg path {
       stroke: ${props => props.theme.colors.primary};
+    }
+  }
+`
+
+export const ModalUl = styled.ul`
+  margin-top: 1rem;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    border: 1px solid ${props => props.theme.colors.primary};
+    border-radius: 5px;
+    margin-top: 0.5rem;
+    color: ${props => props.theme.colors.primary};
+    line-height: 1rem;
+
+    &:active {
+      transition: filter 0.2s ease-in-out;
+      filter: brightness(0.7);
     }
   }
 `

@@ -21,8 +21,6 @@ const Room: NextPage = (): JSX.Element => {
   const roomId = router.query.id?.toString()
   const { questions, title } = useRoom(roomId)
 
-  console.log(process.env.NEXT_PUBLIC_API_KEY, 'oi')
-
   const handleSendQuestion = async (event: FormEvent) => {
     event.preventDefault()
 
