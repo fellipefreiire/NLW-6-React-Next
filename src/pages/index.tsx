@@ -17,6 +17,8 @@ const Homepage: NextPage = (): JSX.Element => {
   const [roomCode, setRoomCode] = useState('')
   const { user, signInWithGoogle } = useAuth()
 
+  console.log('teste: ', process.env.NEXT_PUBLIC_VERSION_ONE)
+
   const handleCreateRoom = async () => {
     if (!user) {
       await signInWithGoogle()
